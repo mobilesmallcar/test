@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--本文件内为系统生成文件，不允许人工修改， 如果被覆盖后果自负-->
+<mapper namespace="com.example.grab.mapper.copy.WareCompanyMapper">
+    <resultMap type="com.example.grab.entity.copy.WareCompany" id="Company">
+        <result property="id" column="id"/>
+        <result property="projectNo" column="project_no"/>
+        <result property="projectName" column="project_name"/>
+        <result property="projectPackage" column="project_package"/>
+        <result property="projectBelong" column="project_belong"/>
+        <result property="agencyName" column="agency_name"/>
+        <result property="purchaseName" column="purchase_name"/>
+        <result property="purchaseMethod" column="purchase_method"/>
+        <result property="totalPrice" column="total_price"/>
+        <result property="reviewTime" column="review_time"/>
+        <result property="sustainTime" column="sustain_time"/>
+        <result property="reviewRegion" column="review_region"/>
+        <result property="specialists" column="specialists"/>
+        <result property="flag" column="flag"/>
+        <result property="purchaseSupervisor" column="purchase_supervisor"/>
+        <result property="purchaseSupervisorPhone" column="purchase_supervisor_phone"/>
+        <result property="purchaseRepresentative" column="purchase_representative"/>
+        <result property="purchaseRepresentPhone" column="purchase_represent_phone"/>
+        <result property="agency" column="agency"/>
+        <result property="agencyPhone" column="agency_phone"/>
+        <result property="reviewLocation" column="review_location"/>
+        <result property="reviewHome" column="review_home"/>
+        <result property="purchaseNames" column="purchase_names"/>
+        <result property="keyword" column="keyword"/>
+        <result property="remark" column="remark"/>
+        <result property="extend1" column="extend1"/>
+        <result property="extend2" column="extend2"/>
+        <result property="extend3" column="extend3"/>
+        <result property="extend4" column="extend4"/>
+        <result property="extend5" column="extend5"/>
+    </resultMap>
+
+    <insert id="insertCompany" parameterType="com.example.grab.entity.copy.WareCompany" useGeneratedKeys="true"
+            keyProperty="id">
+    INSERT  INTO WARE_COMPANY (            id
+                    ,project_no
+                    ,project_name
+                    ,project_package
+                    ,project_belong
+                    ,agency_name
+                    ,purchase_name
+                    ,purchase_method
+                    ,total_price
+                    ,review_time
+                    ,sustain_time
+                    ,review_region
+                    ,specialists
+                    ,flag
+                    ,purchase_supervisor
+                    ,purchase_supervisor_phone
+                    ,purchase_representative
+                    ,purchase_represent_phone
+                    ,agency
+                    ,agency_phone
+                    ,review_location
+                    ,review_home
+                    ,purchase_names
+                    ,keyword
+                    ,remark
+                    ,extend1
+                    ,extend2
+                    ,extend3
+                    ,extend4
+                    ,extend5
+                        )
+        VALUES(                #{id}                ,        #{projectNo}                ,        #{projectName}                ,        #{projectPackage}                ,        #{projectBelong}                ,        #{agencyName}                ,        #{purchaseName}                ,        #{purchaseMethod}                ,        #{totalPrice}                ,        #{reviewTime}                ,        #{sustainTime}                ,        #{reviewRegion}                ,        #{specialists}                ,        #{flag}                ,        #{purchaseSupervisor}                ,        #{purchaseSupervisorPhone}                ,        #{purchaseRepresentative}                ,        #{purchaseRepresentPhone}                ,        #{agency}                ,        #{agencyPhone}                ,        #{reviewLocation}                ,        #{reviewHome}                ,        #{purchaseNames}                ,        #{keyword}                ,        #{remark}                ,        #{extend1}                ,        #{extend2}                ,        #{extend3}                ,        #{extend4}                ,        #{extend5}                )
+    </insert>
+
+</mapper>

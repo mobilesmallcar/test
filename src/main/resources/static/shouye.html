@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>layout 管理系统大布局 - Layui</title>
+    <link rel="stylesheet" href="./layui/css/layui.css">
+    <style>
+        .layui-nav * {
+            font-size: 23px;
+        }
+
+        .layui-layout-admin .layui-footer {
+            left: 0px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header layui-bg-green">
+        <div class="layui-logo layui-hide-xs">
+            <img src="./img/1.png" class="layui-nav-img" style="width: 150px;height: 150px">
+        </div>
+        <!-- 头部区域（可配合layui 已有的水平导航） -->
+        <ul class="layui-nav layui-layout-left layui-bg-green">
+            <!-- 移动端显示 -->
+            <li class="layui-nav-item layui-show-xs-inline-block layui-hide-sm" lay-header-event="menuLeft">
+                <i class="layui-icon layui-icon-spread-left"></i>
+            </li>
+
+            <li class="layui-nav-item layui-hide-xs"><a href="">项目信息</a></li>
+            <li class="layui-nav-item layui-hide-xs"><a href="./form.html" target="_blank">项目信息录入</a></li>
+            <li class="layui-nav-item layui-hide-xs"><a href="./expert_form.html" target="_blank">专家信息</a></li>
+            <!--            <li class="layui-nav-item layui-hide-xs"><a href="./index.html" target="_blank">抽取</a></li>-->
+        </ul>
+    </div>
+    <div class="layui-tab-item layui-show">
+        <!-- 内容主体区域 -->
+        <div style="padding: 18px 0 0 180px">
+
+        </div>
+        <div id="LAY_preview" style="padding: 18px 0 0 180px">
+<!--            <button class="layui-btn layui-btn-normal" id="companyBtn">活动信息</button>-->
+<!--            <button class="layui-btn layui-btn-warm" id="expertBtn">专家信息</button>-->
+            <table class="layui-hide" id="test" lay-filter="test"></table>
+            <table class="layui-hide" id="test2" lay-filter="test2"></table>
+            <!--            <button class="layui-btn layui-btn-normal">返回首页</button>-->
+        </div>
+    </div>
+
+    <div class="layui-footer">
+        <!-- 底部固定区域 -->
+        Copyright © 2021.11.8 MIT Licensed 免责声明
+    </div>
+</div>
+
+
+<script type="text/html" id="toolbarDemo">
+    <div class="layui-btn-container">
+        <button class="layui-btn layui-btn-sm" lay-event="getCheckData">获取选中行数据</button>
+        <button class="layui-btn layui-btn-sm" lay-event="getCheckLength">获取选中数目</button>
+        <button class="layui-btn layui-btn-sm" lay-event="isAll">验证是否全选</button>
+    </div>
+</script>
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="jump">抽奖</a>
+    <a class="layui-btn  layui-btn-xs" lay-event="show" style="background-color:deepskyblue">查看</a>
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+
+
+<script src="layui/layui.js" charset="utf-8"></script>
+<script src="js/jquery.min.js"></script>
+<!-- 注意：如果你直接复制所有代码到本地，上述 JS 路径需要改成你本地的 -->
+
+<script>
+    layui.use('table', function () {
+        var table = layui.table;
+
+        //温馨提示：默认由前端自动合计当前行数据。从 layui 2.5.6 开始： 若接口直接返回了合计行数据，则优先读取接口合计行数据。
+        //详见：https://www.layuion.com/doc/modules/table.html#totalRow
+        table.render({
+            elem: '#test'
+            , url: 'http://localhost:8010/company/get'
+            , toolbar: '#toolbarDemo'
+            , title: '活动数据表'
+            , totalRow: true
+            , cols: [[
+                {type: 'checkbox', fixed: 'left'}
+                , {field: 'id', width: 80, title: 'ID', sort: true}
+                , {field: 'projectNo', width: 80, title: '项目编号',}
+                , {field: 'projectName', width: 80, title: '项目名称', sort: true, edit: 'projectName'}
+                , {field: 'projectPackage', width: 80, title: '项目包号', edit: 'projectPackage'}
+                , {field: 'projectBelong', title: '项目所属级次', width: 80, edit: 'projectBelong'} //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
+                , {field: 'agencyName', title: '代理机构', align: '', sort: true, edit: 'agencyName'}
+                , {field: 'purchaseName', title: '采购单位', align: '', sort: true, edit: 'purchaseName'}
+                , {field: 'purchaseMethod', title: '采购方式', edit: 'purchaseMethod'}
+                , {field: 'totalPrice', width: 80, title: '项目金额', sort: true, edit: 'totalPrice'}
+                , {field: 'reviewTime', width: 80, title: '评审开始时间', sort: true}
+                , {field: 'sustainTime', width: 80, title: '预计评审时长', sort: true, edit: 'sustainTime'}
+                , {field: 'reviewRegion', width: 80, title: '评审地域', sort: true, edit: 'reviewRegion'}
+                , {field: 'specialists', width: 80, title: '需要专家人数', sort: true, edit: 'specialists'}
+                , {field: 'flag', width: 80, title: '仅抽取电子评审专家', sort: true}
+                , {field: 'purchaseSupervisor', width: 137, title: '采购人监督', sort: true, edit: 'purchaseSupervisor'}
+                , {
+                    field: 'purchaseSupervisorPhone',
+                    width: 137,
+                    title: '采购人监督手机',
+                    sort: true,
+                    edit: 'purchaseSupervisorPhone'
+                }
+                , {
+                    field: 'purchaseRepresentative',
+                    width: 137,
+                    title: '采购人代表',
+                    sort: true,
+                    edit: 'purchaseRepresentative'
+                }
+                , {
+                    field: 'purchaseRepresentPhone',
+                    width: 137,
+                    title: '采购人代表手机',
+                    sort: true,
+                    edit: 'purchaseRepresentPhone'
+                }
+                , {field: 'agency', width: 137, title: '代理机构联系人', sort: true, edit: 'agency'}
+                , {field: 'agencyPhone', width: 137, title: '代理机构联系人手机', sort: true, edit: 'agencyPhone'}
+                , {field: 'reviewLocation', width: 137, title: '评审地址', sort: true, edit: 'reviewLocation'}
+                , {field: 'reviewHome', width: 137, title: '评审室', sort: true, edit: 'reviewHome'}
+                , {field: 'purchaseNames', width: 137, title: '采购品目', sort: true, edit: 'purchaseNames'}
+                , {field: 'keyword', width: 137, title: '评审能力关键字', sort: true, edit: 'keyword'}
+                , {field: 'remark', width: 137, title: '备注信息', sort: true, edit: 'remark'}
+                , {field: 'experts', width: 137, title: '专家信息',}
+                , {fixed: 'right', title: '操作', toolbar: '#barDemo', width: 230}
+            ]]
+            , page: true
+        });
+
+        $ = layui.jquery;
+        $(document).on('click', '#companyBtn', function () {
+            // document.getElementById("#LAY_preview").childNodes;
+            // let list = document.getElementById("LAY_preview");
+            document.getElementById("LAY_preview").removeChild(document.getElementById("LAY_preview").childNodes[5]);
+            // document.getElementById()
+            // $("#test").remove();
+        });
+        $(document).on('click', '#expertBtn', function () {
+            layer.msg('hello2');
+        });
+        //工具栏事件
+        table.on('toolbar(test)', function (obj) {
+            var checkStatus = table.checkStatus(obj.config.id);
+            var curData = obj.data;
+            console.log(222)
+            console.log(curData);
+            switch (obj.event) {
+                case 'getCheckData':
+                    var data = checkStatus.data;
+                    layer.alert(JSON.stringify(data));
+                    break;
+                case 'getCheckLength':
+                    var data = checkStatus.data;
+                    layer.msg('选中了：' + data.length + ' 个');
+                    break;
+                case 'isAll':
+                    layer.msg(checkStatus.isAll ? '全选' : '未全选')
+                    break;
+                case 'del':
+                    console.log(111);
+
+
+                    break;
+            }
+            ;
+        });
+        table.on('edit(test)', function (obj) {
+            var value = obj.value //得到修改后的值
+                , data = obj.data //得到所在行所有键值
+                , field = obj.field; //得到字段
+            layer.msg('[ID: ' + data.id + '] ' + field + ' 字段更改值为：' + util.escape(value));
+        });
+        //监听行工具事件
+        table.on('tool(test)', function (obj) {
+            var data = obj.data;
+            //console.log(obj)
+            if (obj.event === 'del') {
+                layer.confirm('真的删除行么', function (index) {
+                    $.ajax({
+                        type: 'GET',
+                        url: "http://localhost:8010/company/delete?id=" + data.id,//发送请求
+                        // data: data.id,
+                        // dataType: "String",
+                        // contentType:"application/json",
+                        success: function (result) {
+                            obj.del();
+                            layer.close(index);
+                            layer.msg("删除成功");
+                        }
+                    })
+
+                });
+            }
+            else if (obj.event === 'edit') {
+                let editData = JSON.stringify(data)
+                $.ajax({
+                    type: 'POST',
+                    url: "http://localhost:8010/company/update",//发送请求
+                    data: editData,
+                    dataType: "json",
+                    contentType: "application/json",
+                    success: function (result) {
+                        layer.msg("编辑成功");
+                    }
+                })
+            }
+            else if (obj.event === 'jump'){
+                console.log('jump');
+                $.ajax({
+                    type: 'get',
+                    url: "http://localhost:8010/company/getExpert?companyId=" + data.id,
+                    dataType: "json",
+                    success: function (result) {
+                        var length = result.length;
+                        if(length>0){
+                            layer.confirm('确定要跳转吗，如果跳转会重新抽取专家', function(index){
+                                $.ajax({
+                                    type: 'get',
+                                    url: "http://localhost:8010/relation/delete?companyId=" + data.id,
+                                    dataType: "json",
+                                    success: function (result) {
+                                        layer.msg("重置成功");
+                                    }
+                                });
+                                window.localStorage.clear();
+                                window.location.href = "index.html?id=" + data.id;
+                            });
+                        }else{
+                            window.localStorage.clear();
+                            window.location.href = "index.html?id=" + data.id;
+                        }
+                    }
+                });
+
+            } else if (obj.event == 'show') {
+                $.ajax({
+                    type: 'get',
+                    url: "http://localhost:8010/company/getExpert?companyId=" + data.id,
+                    dataType: "json",
+                    success: function (result) {
+                        var length = result.length;
+                        if (length>0){
+                            let arrayResult = '';
+                            for (var i = 0; i < result.length; i++) {
+                                arrayResult += result[i].name + result[i].mobile+",";
+                            }
+                            layer.alert(arrayResult, {
+                                title: "获取"+data.projectName+"专家名单"
+                            });
+                        }else{
+                            layer.msg("当前项目无获奖名单");
+                        }
+
+
+                    }
+                });
+            }
+        });
+    });
+</script>
+</body>
+</html>
